@@ -1,0 +1,8 @@
+rootProject.name = "PayPal"
+include ':app'
+
+sourceControl {
+    gitRepository("https://github.com/CapnSpellcheck/interview-utility.git") {
+        producesModule("interview-utility:utility")
+    }
+}

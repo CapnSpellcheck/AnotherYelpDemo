@@ -1,0 +1,4 @@
+<resources>
+   <string name="app_name">PayPal</string>
+   <string name="rating_format" translatable="false"><b>%1$.1f</b> (%2$d)</string>
+</resources>

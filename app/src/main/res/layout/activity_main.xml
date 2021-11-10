@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+   <data>
+      <variable name="listeners" type="julianpellico.paypal.ResultsListeners" />
+      <import type="julianpellico.paypal.ResultFilter" />
+   </data>
+
+   <androidx.coordinatorlayout.widget.CoordinatorLayout
+      android:layout_width="match_parent" android:layout_height="match_parent"
+      tools:context=".MainActivity"
+      >
+      <com.google.android.material.appbar.AppBarLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:paddingStart="12dp"
+         android:paddingEnd="12dp"
+         android:clipToPadding="false"
+         android:clipChildren="false"
+
+         >
+         <!-- first row: sort -->
+         <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:clipChildren="false"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+            <ImageView
+               android:id="@+id/sortIcon"
+               android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:src="@drawable/ic_baseline_sort_24"
+               android:layout_gravity="center_vertical"
+               app:tint="@android:color/white"
+               />
+            <HorizontalScrollView
+               android:id="@+id/horizScroll"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               >
+               <!-- Sort (mutex) -->
+               <com.google.android.material.chip.ChipGroup
+                  android:id="@+id/sortModeGroup"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="10dp"
+                  app:singleSelection="true"
+                  app:selectionRequired="true"
+                  android:onCheckedChanged="@{(group, id) -> listeners.onSortChanged(id)}"
+                  >
+                  <com.google.android.material.chip.Chip
+                     android:id="@+id/sortDefault"
+                     android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:checked="true"
+                     android:text="Default"
+                     style="@style/Widget.MaterialComponents.Chip.Choice"
+                     />
+                  <com.google.android.material.chip.Chip
+                     android:id="@+id/sortRating"
+                     android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:text="Rating"
+                     style="@style/Widget.MaterialComponents.Chip.Choice"
+                     />
+                  <com.google.android.material.chip.Chip
+                     android:id="@+id/sortMostReviewed"
+                     android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:text="Most reviewed"
+                     style="@style/Widget.MaterialComponents.Chip.Choice"
+                     />
+                  <com.google.android.material.chip.Chip
+                     android:id="@+id/sortDistance"
+                     android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:text="Distance"
+                     style="@style/Widget.MaterialComponents.Chip.Choice"
+                     />
+               </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+         </LinearLayout>
+
+         <!-- second row: filter -->
+         <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:clipChildren="false"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+            <ImageView
+               android:id="@+id/filterIcon"
+               android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:src="@drawable/ic_baseline_filter_list_24"
+               android:layout_gravity="center_vertical"
+               app:tint="@android:color/white"
+               />
+            <!-- filters -->
+            <com.google.android.material.chip.ChipGroup
+               android:id="@+id/filterGroup"
+               android:layout_marginStart="10dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:singleSelection="false"
+               >
+               <com.google.android.material.chip.Chip
+                  android:id="@+id/filterOpenNow"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Open Now"
+                  android:onCheckedChanged="@{(v, checked) -> listeners.onFilterChanged(ResultFilter.OpenNow, checked)}"
+                  style="@style/Widget.MaterialComponents.Chip.Filter"
+                  />
+               <com.google.android.material.chip.Chip
+                  android:id="@+id/filterCost1"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="$"
+                  android:onCheckedChanged="@{(v, checked) -> listeners.onFilterChanged(ResultFilter.Cost1, checked)}"
+                  style="@style/Widget.MaterialComponents.Chip.Filter"
+                  />
+               <com.google.android.material.chip.Chip
+                  android:id="@+id/filterCost2"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="$$"
+                  android:onCheckedChanged="@{(v, checked) -> listeners.onFilterChanged(ResultFilter.Cost2, checked)}"
+                  style="@style/Widget.MaterialComponents.Chip.Filter"
+                  />
+               <com.google.android.material.chip.Chip
+                  android:id="@+id/filterCost3"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="$$$"
+                  android:onCheckedChanged="@{(v, checked) -> listeners.onFilterChanged(ResultFilter.Cost3, checked)}"
+                  style="@style/Widget.MaterialComponents.Chip.Filter"
+                  />
+               <com.google.android.material.chip.Chip
+                  android:id="@+id/filterCost4"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="$$$$"
+                  android:onCheckedChanged="@{(v, checked) -> listeners.onFilterChanged(ResultFilter.Cost4, checked)}"
+                  style="@style/Widget.MaterialComponents.Chip.Filter"
+                  />
+            </com.google.android.material.chip.ChipGroup>
+         </LinearLayout>
+      </com.google.android.material.appbar.AppBarLayout>
+
+      <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/recycler"
+         android:layout_width="match_parent" android:layout_height="match_parent"
+         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+         />
+   </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
